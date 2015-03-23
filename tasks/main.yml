@@ -51,6 +51,13 @@
   raw: mv /tmp/jre {{ bambooData }}/jre
   sudo: yes
 
+- name: debug bamboo
+  raw: ls -al /opt/atlassian/bamboo/jre
+  register: dbv
+
+- name: print debug
+  debug: var=dbv
+
 - name: Download MySQL Connector
   get_url: url={{ mysqlConnectorUrl }}
            dest={{ bambooData }}/lib/{{ mysqlConnectorJar }}
@@ -66,6 +73,13 @@
   template: src=bamboo.init.d.j2
             dest=/etc/init.d/atlbamboo
   sudo: yes
+
+- name: debug bamboo
+  raw: ls -al /etc/init.d/
+  register: dbv
+
+- name: print debug
+  debug: var=dbv
 
 - name: stop bamboo
   raw: /etc/init.d/altbamboo stop
