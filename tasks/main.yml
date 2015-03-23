@@ -6,6 +6,7 @@
   with_items:
     - /var/atlassian/application-data
     - "{{ bambooData }}"
+    - "{{ bambooData}}/jre"
   sudo: yes
 
 - name: create bamboo user
