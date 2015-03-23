@@ -1,0 +1,13 @@
+---
+
+- name: restart bamboo
+  service: name=atlbamboo
+           state=restarted
+
+- name: start bamboo
+  service: name=atlbamboo
+           state=started
+
+- name: stop bamboo
+  service: name=atlbamboo
+           state=stopped

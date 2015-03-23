@@ -1,0 +1,16 @@
+---
+
+bambooControl: 8007
+bambooHome: /var/atlassian/application-data/bamboo
+bambooData: /opt/atlassian/bamboo
+bambooHttp: 8085
+bambooTarFile: atlassian-bamboo-5.8.1.tar.gz
+bambooUrl: https://www.atlassian.com/software/bamboo/downloads/binary/{{ bambooTarFile }}
+bambooUser: atlbamboo
+mysqlHost: localhost
+mysqlPort: 3306
+mysqlDatabase: bamboo
+mysqlUser: travis
+mysqlPasswd: 
+mysqlConnectorJar: mysql-connector-java-5.1.34-bin.jar
+mysqlConnectorUrl: http://files.configure.systems/{{ mysqlConnectorJar }}

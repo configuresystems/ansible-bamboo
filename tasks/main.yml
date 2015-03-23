@@ -1,0 +1,57 @@
+---
+
+- name: create bamboo user
+  user: name={{ bambooUser }}
+        comment="Atlassian BAMBOO"
+        home=/var/atlassian/application-data/bamboo/
+        shell=/bin/bashd
+  sudo: yes
+
+- name: Download Bamboo
+  get_url: url={{ bambooUrl }}
+           dest=/tmp
+  sudo: yes
+
+- name: Unpack Bamboo
+  unarchive: src=/tmp/{{ bambooTarFile }}
+             dest={{ bambooData }}
+  sudo: yes
+ 
+- name: Download local JRE source files
+  get_url: url=http://files.configure.systems/jre.tar.gz
+           dest=/tmp/jre.tar.gz
+  sudo: yes
+
+- unarchive: src=/tmp/jre.tar.gz
+             dest={{ bambooData }}/jre
+
+- name: Download MySQL Connector
+  get_url: url={{ mysqlConnectorUrl }}
+           dest={{ bambooData }}/atlassian-bamboo/WEB-INF/lib/{{ mysqlConnectorJar }}
+  sudo: yes
+
+- name: Set Perms on Jira File
+  file: path={{ bambooData }}
+        owner={{ bambooUser }}
+        group=root
+  sudo: yes
+ 
+- name: Copy bamboo init.d File
+  template: src=bamboo.init.d.j2
+            dest=/etc/init.d/atlbamboo
+  sudo: yes
+
+- name: stop bamboo
+  service: name=altbamboo
+           state=stopped
+  sudo: yes
+
+- name: simulate long running op (30 sec), wait for up to 75 sec, poll every 5 sec
+  command: /bin/sleep 30
+  async: 75
+  poll: 5
+
+- name: start bamboo
+  service: name=altbamboo
+           state=started
+  sudo: yes
