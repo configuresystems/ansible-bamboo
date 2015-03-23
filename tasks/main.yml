@@ -76,6 +76,13 @@
   sudo: yes
 
 - name: debug bamboo
+  raw: cat /etc/init.d/altbamboo
+  register: dbv
+
+- name: print debug
+  debug: var=dbv
+
+- name: debug bamboo
   raw: ls -al /etc/init.d/
   register: dbv
 
