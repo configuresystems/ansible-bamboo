@@ -26,11 +26,13 @@
   sudo: yes
 
 - name: Move Bamboo
-  copy: src=/tmp/atlassian-bamboo-5.8.1/
+  copy: >
+        src={{ item }}
         dest={{ bambooData }}
         owner={{ bambooUser }}
-        directory_mode=yes
         group=root
+  with_fileglob:
+    - /tmp/atlassian-bamboo-5.8.1/*
   sudo: yes
 
 - name: debug bamboo
