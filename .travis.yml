@@ -19,7 +19,7 @@ script:
   - ansible-playbook -i tests/inventory/test tests/$SITE --syntax-check
 
   # Run the role/playbook with ansible-playbook.
-  - ansible-playbook -i tests/inventory/test tests/$SITE --connection=local --sudo -vvv
+  - ansible-playbook -i tests/inventory/test tests/$SITE --connection=local --sudo -vv
 
   # Allow time for Bamboo to start
   - sleep 20
