@@ -5,8 +5,6 @@
         state=directory
   with_items:
     - /var/atlassian/application-data
-    - "{{ bambooData }}"
-    - "{{ bambooData}}/jre"
   sudo: yes
 
 - name: create bamboo user
@@ -23,9 +21,16 @@
 
 - name: Unpack Bamboo
   unarchive: src=/tmp/{{ bambooTarFile }}
-             dest={{ bambooData }}
+             dest=/tmp
   sudo: yes
- 
+
+- name: Move Bamboo
+  copy: src=/tmp/atlassian-bamboo-5.8.1
+        dest={{ bambooData }}
+        owner={{ bambooUser }}
+        group=root
+  sudo: yes
+
 - name: debug bamboo
   raw: ls -al /opt/atlassian/bamboo
   register: dbv
@@ -39,7 +44,14 @@
   sudo: yes
 
 - unarchive: src=/tmp/jre.tar.gz
-             dest={{ bambooData }}/jre
+             dest=/tmp
+  sudo: yes
+
+- name: Move JRE
+  copy: src=/tmp/jre
+        dest={{ bambooData }}/jre
+        owner={{ bambooUser }}
+        group=root
   sudo: yes
 
 - name: Download MySQL Connector
