@@ -1,8 +1,11 @@
 ---
 
-- name: Create Bamboo Home dir
-  file: path=/var/atlassian/application-data
+- name: Create Bamboo dir dependencies
+  file: path={{ item }}
         state=directory
+  with_items:
+    - /var/atlassian/application-data
+    - {{ bambooData }}
   sudo: yes
 
 - name: create bamboo user
