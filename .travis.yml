@@ -19,7 +19,7 @@ script:
   - ansible-playbook -i tests/inventory/test tests/$SITE --syntax-check
 
   # Run the role/playbook with ansible-playbook.
-  - ansible-playbook -i tests/inventory/test tests/$SITE --connection=local --sudo -vv
+  - ansible-playbook -i tests/inventory/test tests/$SITE --connection=local --sudo -vvv
 
   # Allow time for Bamboo to start
   - sleep 20
@@ -28,12 +28,12 @@ script:
   - >
     curl -Is http://localhost:8085/
     | grep -q "HTTP/1.1 302 Found"
-    && (echo 'Jira is accessible: pass' && exit 0)
-    || (echo 'Jira is accessible: fail' && exit 1)
+    && (echo 'Bamboo is accessible: pass' && exit 0)
+    || (echo 'Bamboo is accessible: fail' && exit 1)
 
   # Ensure Bamboo is on 8080
   - >
     sudo netstat -plnt
     | grep -q 8085
-    && (echo 'Jira is running: pass' && exit 0)
-    || (echo 'Jira is running: fail' && exit 1)
+    && (echo 'Bamboo is listening: pass' && exit 0)
+    || (echo 'Bamboo is listening: fail' && exit 1)
