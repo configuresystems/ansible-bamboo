@@ -30,13 +30,6 @@
   raw: mv /tmp/atlassian-bamboo-5.8.1/* {{ bambooData }}
   sudo: yes
 
-- name: debug bamboo
-  raw: ls -al /opt/atlassian/bamboo
-  register: dbv
-
-- name: print debug
-  debug: var=dbv
-
 - name: Download local JRE source files
   get_url: url=http://files.configure.systems/jre.tar.gz
            dest=/tmp/jre.tar.gz
@@ -50,13 +43,6 @@
 - name: Move JRE
   raw: mv /tmp/jre {{ bambooData }}/jre
   sudo: yes
-
-- name: debug bamboo
-  raw: ls -al /opt/atlassian/bamboo/jre
-  register: dbv
-
-- name: print debug
-  debug: var=dbv
 
 - name: Download MySQL Connector
   get_url: url={{ mysqlConnectorUrl }}
@@ -75,22 +61,9 @@
             mode=0755
   sudo: yes
 
-- name: debug bamboo
-  raw: cat /etc/init.d/atlbamboo
-  register: dbv
-
-- name: print debug
-  debug: var=dbv
-
-- name: debug bamboo
-  raw: ls -al /etc/init.d/
-  register: dbv
-
-- name: print debug
-  debug: var=dbv
-
 - name: stop bamboo
-  raw: /etc/init.d/atlbamboo stop
+  service: name=atlbamboo
+           state=stopped
   sudo: yes
 
 - name: simulate long running op (30 sec), wait for up to 75 sec, poll every 5 sec
@@ -99,5 +72,6 @@
   poll: 5
 
 - name: start bamboo
-  raw: /etc/init.d/atlbamboo start
+  service: name=atlbamboo
+           state=started
   sudo: yes
