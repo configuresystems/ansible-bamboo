@@ -26,6 +26,13 @@
              dest={{ bambooData }}
   sudo: yes
  
+- name: debug bamboo
+  raw: ls -al /opt/atlassian/bamboo
+  register: dbv
+
+- name: print debug
+  debug: var=dbv
+
 - name: Download local JRE source files
   get_url: url=http://files.configure.systems/jre.tar.gz
            dest=/tmp/jre.tar.gz
@@ -33,10 +40,11 @@
 
 - unarchive: src=/tmp/jre.tar.gz
              dest={{ bambooData }}/jre
+  sudo: yes
 
 - name: Download MySQL Connector
   get_url: url={{ mysqlConnectorUrl }}
-           dest={{ bambooData }}/atlassian-bamboo/WEB-INF/lib/{{ mysqlConnectorJar }}
+           dest={{ bambooData }}/lib/{{ mysqlConnectorJar }}
   sudo: yes
 
 - name: Set Perms on Bamboo Data Dir
