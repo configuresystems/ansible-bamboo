@@ -21,8 +21,16 @@
 
 - name: Unpack Bamboo
   unarchive: src=/tmp/{{ bambooTarFile }}
-             dest={{ bambooData }}
+             dest=/tmp
              copy=false
+  sudo: yes
+
+- name: Move Bamboo
+  copy: src=/tmp/atlassian-bamboo-5.8.1/
+        dest={{ bambooData }}
+        owner={{ bambooUser }}
+        directory_mode=yes
+        group=root
   sudo: yes
 
 - name: debug bamboo
