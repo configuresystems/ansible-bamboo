@@ -43,8 +43,12 @@
   sudo: yes
 
 - unarchive: src=/tmp/jre.tar.gz
-             dest={{ bambooData }}
+             dest=/tmp
              copy=false
+  sudo: yes
+
+- name: Move JRE
+  raw: mv /tmp/jre {{ bambooData }}/jre
   sudo: yes
 
 - name: Download MySQL Connector
@@ -64,8 +68,7 @@
   sudo: yes
 
 - name: stop bamboo
-  service: name=altbamboo
-           state=stopped
+  raw: /etc/init.d/altbamboo stop
   sudo: yes
 
 - name: simulate long running op (30 sec), wait for up to 75 sec, poll every 5 sec
@@ -74,6 +77,5 @@
   poll: 5
 
 - name: start bamboo
-  service: name=altbamboo
-           state=started
+  raw: /etc/init.d/altbamboo start
   sudo: yes
