@@ -72,6 +72,7 @@
 - name: Copy bamboo init.d File
   template: src=bamboo.init.d.j2
             dest=/etc/init.d/atlbamboo
+            mode=0755
   sudo: yes
 
 - name: debug bamboo
