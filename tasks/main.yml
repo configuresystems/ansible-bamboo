@@ -5,7 +5,7 @@
         state=directory
   with_items:
     - /var/atlassian/application-data
-    - {{ bambooData }}
+    - "{{ bambooData }}"
   sudo: yes
 
 - name: create bamboo user
